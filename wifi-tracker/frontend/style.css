@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    display: flex;
+    font-family: sans-serif;
+}
+
+/* sidebar */
+#sidebar {
+    width: 300px;
+    background: #1e293b;
+    color: white;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+/* map */
+#map {
+    flex: 1;
+    height: 100vh;
+}
+
+/* device list */
+#device-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.device-item {
+    padding: 5px;
+    border-bottom: 1px solid #444;
+}

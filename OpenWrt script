@@ -1,0 +1,18 @@
+SERVER="http://YOUR_SERVER_IP/api"
+
+AP_ID="router_$(cat /sys/class/net/wlan0/address)"
+
+# Register AP (once)
+curl -X POST $SERVER/register-ap \
+     -H "Content-Type: application/json" \
+     -d "{
+       \"ap_id\": \"$AP_ID\",
+       \"name\": \"Office Router\",
+       \"lat\": 13.7563,
+       \"lng\": 100.5018
+     }"
+
+# Send devices
+RAW=$(iw dev wlan0 station dump)
+
+# (same parsing logic as before)
