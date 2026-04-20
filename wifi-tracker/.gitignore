@@ -1,0 +1,32 @@
+# ── Secrets ───────────────────────────────────
+.env
+
+# ── Python ────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# ── Docker ────────────────────────────────────
+# Keep docker-compose.yml but ignore override files with local secrets
+docker-compose.override.yml
+
+# ── Database volumes (local data) ─────────────
+pgdata/
+
+# ── Logs ──────────────────────────────────────
+*.log
+logs/
+
+# ── OS / Editor ───────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo

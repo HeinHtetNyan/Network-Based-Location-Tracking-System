@@ -1,37 +1,156 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>WiFi Enterprise Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NetTrack — Network Location Intelligence</title>
 
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Mono&display=swap" rel="stylesheet" />
 
-    <!-- cluster -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- 🔥 Sidebar -->
-<div id="sidebar">
-    <h2>Network Dashboard</h2>
+<!-- ═══════════════════════════════════════ TOP NAV ═══════════════════════════════════════ -->
+<header id="topbar">
+  <div id="topbar-left">
+    <div id="logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <circle cx="14" cy="14" r="13" fill="url(#lg1)" />
+        <circle cx="14" cy="14" r="6" fill="white" opacity="0.9"/>
+        <circle cx="14" cy="14" r="2.5" fill="url(#lg1)"/>
+        <defs>
+          <radialGradient id="lg1" cx="30%" cy="30%">
+            <stop offset="0%" stop-color="#4285F4"/>
+            <stop offset="100%" stop-color="#1a73e8"/>
+          </radialGradient>
+        </defs>
+      </svg>
+      <span>NetTrack</span>
+    </div>
+    <div id="topbar-title">Network Location Intelligence</div>
+  </div>
 
-    <div id="stats"></div>
+  <div id="topbar-right">
+    <div id="live-indicator">
+      <span class="pulse-dot"></span>
+      <span id="live-label">LIVE</span>
+    </div>
+    <div id="last-updated">Connecting…</div>
+    <div id="refresh-timer">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M23 4v6h-6M1 20v-6h6"/>
+        <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+      </svg>
+      <span id="refresh-countdown">3s</span>
+    </div>
 
-    <canvas id="chart" height="200"></canvas>
+    <!-- Theme Toggle -->
+    <div id="theme-toggle" onclick="toggleTheme()" title="Switch theme">
+      <span id="theme-toggle-label">Dark</span>
+      <div class="toggle-track">
+        <div class="toggle-thumb">
+          <span class="toggle-icon" id="toggle-icon">🌙</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
-    <h3>Devices</h3>
-    <input type="text" id="search" placeholder="Search MAC..." />
-    <div id="device-list"></div>
+<!-- ═══════════════════════════════════════ LAYOUT ═══════════════════════════════════════ -->
+<div id="layout">
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+
+    <!-- Stat Cards -->
+    <div id="stats">
+      <div class="stat-card" id="card-aps">
+        <div class="stat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/>
+          </svg>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value" id="val-aps">—</div>
+          <div class="stat-label">Access Points</div>
+        </div>
+        <div class="stat-badge" id="badge-aps"></div>
+      </div>
+
+      <div class="stat-card" id="card-devices">
+        <div class="stat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+            <line x1="12" y1="18" x2="12.01" y2="18"/>
+          </svg>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value" id="val-devices">—</div>
+          <div class="stat-label">Active Devices</div>
+        </div>
+        <div class="stat-badge" id="badge-devices"></div>
+      </div>
+
+      <div class="stat-card" id="card-density">
+        <div class="stat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value" id="val-density">—</div>
+          <div class="stat-label">Avg per AP</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div id="chart-section">
+      <div class="section-header">
+        <span class="section-title">Devices per AP</span>
+        <span class="section-badge" id="chart-badge">Live</span>
+      </div>
+      <div id="chart-wrap">
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
+
+    <!-- Device List Section -->
+    <div id="device-section">
+      <div class="section-header">
+        <span class="section-title">Connected Devices</span>
+      </div>
+      <div id="search-wrap">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" id="search" placeholder="Search MAC address…" autocomplete="off" />
+      </div>
+      <div id="device-list"></div>
+    </div>
+
+  </div><!-- /sidebar -->
+
+  <!-- MAP -->
+  <div id="map"></div>
+
+</div><!-- /layout -->
+
+<!-- Map overlay pill: shows selected AP -->
+<div id="map-overlay" class="hidden">
+  <span id="map-overlay-text"></span>
+  <button id="map-overlay-close">✕</button>
 </div>
 
-<!-- 🗺️ Map -->
-<div id="map"></div>
-
+<!-- Scripts -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-
-<!-- chart -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script src="app.js"></script>
