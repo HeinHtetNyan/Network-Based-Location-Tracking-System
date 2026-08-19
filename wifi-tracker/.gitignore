@@ -1,7 +1,7 @@
-# ── Secrets ───────────────────────────────────
+# Secrets
 .env
 
-# ── Python ────────────────────────────────────
+# Python
 __pycache__/
 *.py[cod]
 *.pyo
@@ -12,18 +12,18 @@ env/
 dist/
 build/
 
-# ── Docker ────────────────────────────────────
+# Docker
 # Keep docker-compose.yml but ignore override files with local secrets
 docker-compose.override.yml
 
-# ── Database volumes (local data) ─────────────
+# Database volumes (local data)
 pgdata/
 
-# ── Logs ──────────────────────────────────────
+# Logs
 *.log
 logs/
 
-# ── OS / Editor ───────────────────────────────
+# OS / Editor
 .DS_Store
 Thumbs.db
 .idea/

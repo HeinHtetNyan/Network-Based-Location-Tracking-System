@@ -1,9 +1,7 @@
-// ═══════════════════════════════════════════════════════
 //  dashboard.js  —  Stat cards + device list
 //  Function contract: updateDashboard(data), renderDeviceList(devices)
-// ═══════════════════════════════════════════════════════
 
-// ─── Animate a number change ──────────────────────────
+// Animate a number change
 function animateValue(el, newVal) {
   if (!el) return;
   const prev = el.textContent;
@@ -14,7 +12,7 @@ function animateValue(el, newVal) {
   el.classList.add('num-pop');
 }
 
-// ─── Signal strength helper ───────────────────────────
+// Signal strength helper
 function getSignalBars(signal) {
   // signal is typically negative dBm (e.g. -55)
   // stronger = closer to 0
@@ -35,13 +33,13 @@ function buildSignalBars(signal) {
   return html;
 }
 
-// ─── Device colour dot ────────────────────────────────
+// Device colour dot
 function getDeviceDotColor(signal) {
   const { cls } = getSignalBars(signal);
   return cls === 'strong' ? '#34a853' : cls === 'medium' ? '#fbbc04' : '#ea4335';
 }
 
-// ─── Main update function (called by app.js) ──────────
+// Main update function (called by app.js)
 function updateDashboard(data) {
   const totalAPs      = data.length;
   const totalDevices  = data.reduce((s, ap) => s + ap.devices.length, 0);
@@ -69,7 +67,7 @@ function updateDashboard(data) {
   renderDeviceList(allDevices);
 }
 
-// ─── Device list renderer ─────────────────────────────
+// Device list renderer
 let _lastSearch = '';
 
 function renderDeviceList(devices) {

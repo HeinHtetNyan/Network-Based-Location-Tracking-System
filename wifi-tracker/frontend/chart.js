@@ -1,11 +1,9 @@
-// ═══════════════════════════════════════════════════════
 //  chart.js  —  Styled Chart.js bar chart
 //  Function contract: updateChart(data)
-// ═══════════════════════════════════════════════════════
 
 let chart;
 
-// ─── Colour gradient per bar ──────────────────────────
+// Colour gradient per bar
 function barColors(values) {
   return values.map(v => {
     if (v > 10) return 'rgba(234,67,53,0.85)';
@@ -22,7 +20,7 @@ function barBorderColors(values) {
   });
 }
 
-// ─── Main update (called by app.js) ──────────────────
+// Main update (called by app.js)
 function updateChart(data) {
   const labels = data.map(ap => ap.ap_name);
   const values = data.map(ap => ap.devices.length);

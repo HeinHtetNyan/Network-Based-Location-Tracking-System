@@ -1,7 +1,5 @@
-/* ═══════════════════════════════════════════════════════
-   NetTrack — Global Styles
-   Google Maps–inspired dark intelligence dashboard
-═══════════════════════════════════════════════════════ */
+/* NetTrack — Global Styles
+   Google Maps–inspired dark intelligence dashboard */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -97,13 +95,13 @@ html, body {
   overflow: hidden;
 }
 
-/* ─── SCROLLBAR ─────────────────────────────────────── */
+/* SCROLLBAR */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
-/* ═══════════════════════════════ TOP BAR ══════════════ */
+/* TOP BAR */
 #topbar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -202,14 +200,14 @@ html, body {
 
 #refresh-timer svg { opacity: 0.5; }
 
-/* ═══════════════════════════════ LAYOUT ═══════════════ */
+/* LAYOUT */
 #layout {
   display: flex;
   height: 100vh;
   padding-top: var(--topbar-h);
 }
 
-/* ═══════════════════════════════ SIDEBAR ══════════════ */
+/* SIDEBAR */
 #sidebar {
   width: var(--sidebar-w);
   flex-shrink: 0;
@@ -222,7 +220,7 @@ html, body {
   height: calc(100vh - var(--topbar-h));
 }
 
-/* ─── STAT CARDS ────────────────────────────────────── */
+/* STAT CARDS */
 #stats {
   display: flex;
   flex-direction: column;
@@ -305,7 +303,7 @@ html, body {
   letter-spacing: 0.3px;
 }
 
-/* ─── SECTION HEADER ────────────────────────────────── */
+/* SECTION HEADER */
 .section-header {
   display: flex;
   align-items: center;
@@ -338,7 +336,7 @@ html, body {
   to   { opacity: 0.5; }
 }
 
-/* ─── CHART ─────────────────────────────────────────── */
+/* CHART */
 #chart-section {
   border-top: 1px solid var(--border);
 }
@@ -351,7 +349,7 @@ html, body {
 
 #chart { width: 100% !important; height: 100% !important; }
 
-/* ─── DEVICE LIST ────────────────────────────────────── */
+/* DEVICE LIST */
 #device-section {
   flex: 1;
   border-top: 1px solid var(--border);
@@ -503,7 +501,7 @@ html, body {
 
 .empty-state svg { opacity: 0.3; }
 
-/* ═══════════════════════════════ MAP ═══════════════════ */
+/* MAP */
 #map {
   flex: 1;
   height: calc(100vh - var(--topbar-h));
@@ -588,7 +586,7 @@ html, body {
   border-radius: 50%;
 }
 
-/* ═══════════════════════════════ MAP OVERLAY ══════════ */
+/* MAP OVERLAY */
 #map-overlay {
   position: fixed;
   bottom: 24px;
@@ -621,7 +619,7 @@ html, body {
 }
 #map-overlay-close:hover { color: var(--text-primary); }
 
-/* ═══════════════════════════════ MARKER STYLES ════════ */
+/* MARKER STYLES */
 .net-marker {
   position: relative;
   display: flex;
@@ -641,7 +639,7 @@ html, body {
   100% { transform: scale(1.8); opacity: 0; }
 }
 
-/* ═══════════════════════════════ MARKER CLUSTER ═══════ */
+/* MARKER CLUSTER */
 .marker-cluster-small,
 .marker-cluster-medium,
 .marker-cluster-large {
@@ -656,7 +654,7 @@ html, body {
   font-weight: 700 !important;
 }
 
-/* ═══════════════════════════════ UTILITIES ════════════ */
+/* UTILITIES */
 .hidden { display: none !important; }
 
 /* Number pop animation when value changes */

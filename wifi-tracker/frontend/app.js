@@ -1,7 +1,5 @@
-// ═══════════════════════════════════════════════════════
 //  app.js  —  Map initialisation + data loading
 //  API contract: GET /api/map-data  (unchanged)
-// ═══════════════════════════════════════════════════════
 
 // Show any uncaught runtime error in the topbar so we can diagnose
 window.onerror = function(msg, src, line) {
@@ -9,7 +7,7 @@ window.onerror = function(msg, src, line) {
   if (el) el.textContent = 'JS Error: ' + msg + ' (' + (src||'').split('/').pop() + ':' + line + ')';
 };
 
-// ─── Dark CartoDB tiles (Google Maps dark feel) ───────
+// Dark CartoDB tiles (Google Maps dark feel)
 const DARK_TILES  = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 const LIGHT_TILES = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 const TILE_ATTR   = '&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap';
@@ -22,7 +20,7 @@ const map = L.map('map', {
   attributionControl: true,
 }).setView([13.75, 100.50], 12);
 
-// ─── Theme toggle ─────────────────────────────────────
+// Theme toggle
 function applyTheme(dark) {
   isDark = dark;
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
@@ -62,7 +60,7 @@ function toggleTheme() { applyTheme(!isDark); }
 // Init theme on load
 applyTheme(isDark);
 
-// ─── Marker references by AP name ────────────────────
+// Marker references by AP name
 const markersByAP = {};
 
 // ─── Fly to AP and open popup (called from device list) ─
@@ -106,14 +104,14 @@ const markers = (typeof L.markerClusterGroup === 'function')
   : L.featureGroup();
 map.addLayer(markers);
 
-// ─── Colour logic (same thresholds as original) ───────
+// Colour logic (same thresholds as original)
 function getColor(count) {
   if (count > 10) return { fill: '#ea4335', glow: 'rgba(234,67,53,0.5)' };
   if (count > 5)  return { fill: '#fbbc04', glow: 'rgba(251,188,4,0.5)' };
   return               { fill: '#34a853', glow: 'rgba(52,168,83,0.5)' };
 }
 
-// ─── Custom marker icon ───────────────────────────────
+// Custom marker icon
 function createIcon(count, colorObj) {
   const { fill, glow } = colorObj;
   const size = Math.min(52, 36 + count * 1.2);
@@ -146,7 +144,7 @@ function createIcon(count, colorObj) {
   });
 }
 
-// ─── Popup HTML builder ───────────────────────────────
+// Popup HTML builder
 function buildPopup(ap) {
   const count = ap.devices.length;
   const c = getColor(count);
@@ -163,7 +161,7 @@ function buildPopup(ap) {
     </div>`;
 }
 
-// ─── Refresh countdown ────────────────────────────────
+// Refresh countdown
 let countdown = 3;
 const countdownEl = document.getElementById('refresh-countdown');
 const lastUpdatedEl = document.getElementById('last-updated');
@@ -174,7 +172,7 @@ setInterval(() => {
   if (countdownEl) countdownEl.textContent = countdown + 's';
 }, 1000);
 
-// ─── Main data loader ─────────────────────────────────
+// Main data loader
 async function loadData() {
   try {
     const res  = await fetch('/api/map-data');
@@ -215,6 +213,6 @@ async function loadData() {
   }
 }
 
-// ─── Poll every 3 seconds (original interval) ─────────
+// Poll every 3 seconds (original interval)
 setInterval(loadData, 3000);
 loadData();

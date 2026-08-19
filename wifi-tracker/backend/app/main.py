@@ -21,9 +21,7 @@ def get_db():
         db.close()
 
 
-# =========================
 # AP REPORT (AUTO REGISTER)
-# =========================
 @app.post("/api/v1/ap/report")
 def report_devices(data: APReport, db: Session = Depends(get_db)):
 
@@ -66,9 +64,7 @@ def report_devices(data: APReport, db: Session = Depends(get_db)):
     return {"status": "ok"}
 
 
-# =========================
 # MAP DATA
-# =========================
 @app.get("/api/map-data")
 def get_map_data(db: Session = Depends(get_db)):
 
